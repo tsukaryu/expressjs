@@ -6,9 +6,8 @@
 	<title>Socket.ioの練習</title>
 </head>
 <body>
-	<form id="myForm">
-	<!--<form id="myForm" action="confirm">-->
-		<input type="text" id="name"> <input type="text" id="msg"><input type="submit" value="Send!">
+	<form id="myForm" action="index">
+		<input type="submit" value="confirm!">
 	</form>	
 	<ul id="logs"></ul>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -16,15 +15,6 @@
 	<script>
 	 $(function() {
 		var socket = io.connect();
-		$('#myForm').submit(function(e){
-		 e.preventDefault();
-		 socket.json.emit('emit_from_client',{
-			msg: $('#msg').val(),
-			name: $('#name').val()
-		 });
-		 $('#msg').val('').focus();
-		 });
-		 
 		socket.on('emit_from_server', function(data){
 			$('#logs').append($('<li>').text(data));
 		});

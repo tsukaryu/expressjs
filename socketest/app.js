@@ -17,12 +17,12 @@ function handler (req, res) {
   })
 }
 
-
 io.sockets.on('connection', function(socket){
+	var results = [];
 	socket.on('emit_from_client', function(data){
-	//console.log(data);
-	socket.client_name =  data.name;
-	io.sockets.emit('emit_from_server', '['+ socket.client_name + ']' + data.msg);
+		results.push(data.msg);
+		socket.client_name =  data.name;
+		console.log(results);
+		io.sockets.emit('emit_from_server', '['+ socket.client_name + ']' + data.msg);
 	});
-
 });
