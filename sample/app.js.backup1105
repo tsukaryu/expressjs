@@ -1,0 +1,52 @@
+var express = require('express'),
+        bodyParser = require('body-parser'),
+        methodOverride = require('method-override',)
+        app = express(),
+	post = require('./routes/index');
+
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+
+// middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+
+app.use(express.static(__dirname + '/public'));
+/*
+app.use(function(req, res, next){
+	console.log('my custom err');
+	next();
+});
+*/
+
+//routing
+
+app.param('pid', function(req, res, next, pid){
+	var players = ['player1', 'player2', 'player3', 'player4'];
+	req.params.playername = players[pid];
+	next();
+});
+
+app.get('/', function(req, res){
+  res.render('index.ejs', {title: 'PGG'});
+});
+
+app.get('/room/:pid', function(req, res){
+  	res.render('room.ejs', {title: req.params.playername});
+});
+app.get('/new', function(req, res){
+	res.render('new');
+});
+app.post('/create', function(req, res){
+ 	res.send(req.body.name);
+});
+
+app.get('/login', function(req, res){
+	res.render('login');
+});
+app.post('/main', function(req, res){
+	res.render('main',{pid: req.body.pid, payment: req.body.payment});
+});
+
+app.listen(3000);
+console.log("server starting...");
