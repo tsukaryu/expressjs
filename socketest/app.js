@@ -17,6 +17,7 @@ function handler (req, res) {
   })
 }
 
+
 io.sockets.on('connection', function(socket){
 	socket.on('emit_from_client', function(data){
 	//console.log(data);
